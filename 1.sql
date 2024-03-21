@@ -1,25 +1,30 @@
 create database book;
 use book;
--- Create tables
+
 CREATE TABLE BOOK (
     Book_id INT PRIMARY KEY,
     Title VARCHAR(100),
     Publisher_Name VARCHAR(100),
     Pub_Year INT
 );
-
+desc BOOK;
 CREATE TABLE BOOK_AUTHORS (
     Book_id INT,
     Author_Name VARCHAR(100),
     FOREIGN KEY (Book_id) REFERENCES BOOK(Book_id)
 );
-
+desc BOOK_AUTHORS;
+CREATE TABLE PUBLISHER (
+    Name VARCHAR(100) PRIMARY KEY,
+    Address VARCHAR(100)
+    Phone VARCHAR(20)
+);
 CREATE TABLE PUBLISHER (
     Name VARCHAR(100) PRIMARY KEY,
     Address VARCHAR(100),
     Phone VARCHAR(20)
 );
-
+desc PUBLISHER;
 CREATE TABLE BOOK_COPIES (
     Book_id INT,
     Programme_id INT,
@@ -27,7 +32,17 @@ CREATE TABLE BOOK_COPIES (
     PRIMARY KEY (Book_id, Programme_id),
     FOREIGN KEY (Book_id) REFERENCES BOOK(Book_id)
 );
-
+desc BOOK_COPIES1;
+desc BOOK_COPIES;
+CREATE TABLE BOOK_LENDING (
+    Book_id INT,
+    Programme_id INT,
+    Card_No INT,
+    Date_Out DATE,
+    Due_Date DATE,
+    PRIMARY KEY (Book_id, Programme_id, Card_No),
+    FOREIGN KEY (Book_id, Programme_id) REFERENCE BOOK_COPIES(Book_id, Programme_id)
+);
 CREATE TABLE BOOK_LENDING (
     Book_id INT,
     Programme_id INT,
@@ -37,41 +52,46 @@ CREATE TABLE BOOK_LENDING (
     PRIMARY KEY (Book_id, Programme_id, Card_No),
     FOREIGN KEY (Book_id, Programme_id) REFERENCES BOOK_COPIES(Book_id, Programme_id)
 );
-
+desc BOOK_LENDING;
 CREATE TABLE LIBRARY_PROGRAMME (
     Programme_id INT PRIMARY KEY,
     Programme_Name VARCHAR(100),
     Address VARCHAR(100)
 );
+desc LIBRARY_PROGRAMME;
+
 
 -- Insert sample data
 INSERT INTO BOOK (Book_id, Title, Publisher_Name, Pub_Year) VALUES
-(1, 'Book Title 1', 'Publisher 1', 2020),
-(2, 'Book Title 2', 'Publisher 2', 2018),
-(3, 'Book Title 3', 'Publisher 3', 2015);
+(1, 'The Matho genious', 'Shivani', 2020),
+(2, 'World of Database ', 'Nikita', 2018),
+(3, 'Hardwork and Success', 'Gayatri', 2015);
 
+select * from BOOK;
 INSERT INTO BOOK_AUTHORS (Book_id, Author_Name) VALUES
-(1, 'Author 1'),
-(2, 'Author 2'),
-(3, 'Author 3');
-
+(1, 'Shivani'),
+(2, 'Nikita'),
+(3, 'Gayatri');
+select * from BOOK_AUTHORS;
 INSERT INTO PUBLISHER (Name, Address, Phone) VALUES
-('Publisher 1', 'Address 1', '123-456-7890'),
-('Publisher 2', 'Address 2', '987-654-3210');
+('Shivani', 'Bidnal Cross Hubli', '123-456-7890'),
+('Nikita', 'Manjunath nagar hubli', '987-654-3210');
+select * from PUBLISHER;
 
 INSERT INTO LIBRARY_PROGRAMME (Programme_id, Programme_Name, Address) VALUES
-(1, 'Main Programme', 'Main St, City 1'),
-(2, 'Secondary Programme', 'Second St, City 2');
+(1, 'Main Programme', 'Main St, hubli'),
+(2, 'Secondary Programme', 'Second St, hubli');
 
+select * from LIBRARY_PROGRAMME;
 INSERT INTO BOOK_COPIES (Book_id, Programme_id, No_of_Copies) VALUES
 (1, 1, 5),
 (2, 1, 3),
 (3, 2, 2);
-
+select * from BOOK_COPIES;
 INSERT INTO BOOK_LENDING (Book_id, Programme_id, Card_No, Date_Out, Due_Date) VALUES
 (1, 1, 1001, '2024-03-01', '2024-03-15'),
 (2, 1, 1002, '2024-03-03', '2024-03-17');
-
+select * from BOOK_LENDING;
 
 
 SELECT 
